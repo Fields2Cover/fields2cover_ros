@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="fields2cover_ros" type="visualizer_node" name="visualizer" output="screen">
+      <param name="field_file" type="string" value="$(find fields2cover_ros)/data/example1.xml"/>
+    </node>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find fields2cover_ros)/launch/demo.rviz"/>
+    <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_fake" args="0 0 0 0.015 0 0 map base_link" />
+</launch>
+
