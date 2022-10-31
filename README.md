@@ -33,6 +33,11 @@ To run an interactive demo, run:
 roslaunch fields2cover_ros view_field.launch
 ```
 
+A rviz and a rqt_reconfigure windows will appear, so you can interactively modify the path created:
+
+![view_field.launch image](demo_image.png)
+
+
 
 ## Credits and more info
 
