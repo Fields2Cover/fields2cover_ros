@@ -6,7 +6,7 @@ This package is an interface to ROS of the [Fields2Cover library](https://github
 
 ## Pre-requisites
 
-This code has been tested with Ubuntu 20.04 and ROS noetic.
+This code has been tested with ROS noetic and melodic.
 
 First, install [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) and create a [workspace (from now: catkin_ws/ )](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
 
