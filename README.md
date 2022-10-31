@@ -2,6 +2,8 @@
 
 This package is an interface to ROS of the [Fields2Cover library](https://github.com/Fields2Cover/Fields2Cover)
 
+<img src="logo_f2c.jpeg" width="250" height="250">
+
 ## Pre-requisites
 
 This code has been tested with Ubuntu 20.04 and ROS noetic.
@@ -35,7 +37,7 @@ roslaunch fields2cover_ros view_field.launch
 
 A rviz and a rqt_reconfigure windows will appear, so you can interactively modify the path created:
 
-![view_field.launch image](demo_image.png)
+<img src="demo_image.png">
 
 
 ## Citing
