@@ -4,7 +4,7 @@ This package is an interface to ROS of the [Fields2Cover library](https://github
 
 <img src="logo_f2c.jpeg" width="250" height="250">
 
-## Pre-requisites
+## Installation
 
 This code has been tested with ROS noetic and melodic.
 
