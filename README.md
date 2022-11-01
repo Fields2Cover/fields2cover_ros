@@ -10,22 +10,14 @@ This code has been tested with ROS noetic and melodic.
 
 First, install [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) and create a [workspace (from now: catkin_ws/ )](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
 
-
-Also compile and install the [Fields2Cover library](https://github.com/Fields2Cover/Fields2Cover).
-
-Under `catkin_ws/src` clone the `rviz_satellite` and this package:
+Under `catkin_ws/` clone and compile the package as:
 ```
-git clone https://github.com/nobleo/rviz_satellite
-git clone https://github.com/Fields2Cover/fields2cover_ros
+git clone https://github.com/Fields2Cover/Fields2Cover src/fields2cover
+git clone https://github.com/Fields2Cover/fields2cover_ros src/fields2cover_ros
+rosdep install -r --ignore-src -y --from-paths .
+catkin_make_isolated
 ```
 
-## Compilation
-
-From the workspace folder (`catkin_ws/`), run:
-
-```
-catkin_make
-```
 
 ## Running a demo
 
