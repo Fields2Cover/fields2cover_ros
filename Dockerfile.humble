@@ -1,0 +1,17 @@
+FROM ros:humble
+RUN mkdir -p /ws/src
+WORKDIR /ws
+RUN apt-get update -qq && apt-get install -qqy python3-osrf-pycommon git software-properties-common
+
+RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
+
+# build and get deps here to help with caching
+RUN git clone https://github.com/Fields2Cover/Fields2Cover.git src/fields2cover --branch main
+RUN rosdep install -r --ignore-src -y --from-paths .
+RUN bash -c 'source /opt/ros/*/setup.bash && colcon build'
+
+# now build the rest
+COPY . src/fields2cover_ros/.
+RUN rosdep install -r --ignore-src -y --from-paths .
+RUN bash -c 'source /opt/ros/*/setup.bash && colcon build'
+

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>fields2cover_ros</name>
   <version>1.2.0</version>
   <description>The fields2cover_ros package is a wrapper of the fields2cover package</description>
@@ -8,30 +8,41 @@
 
   <license>BSD 3-Clause license</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend condition="$ROS_VERSION == 1">catkin</buildtool_depend>
+  <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
   
-  <build_depend>roscpp</build_depend>
-  <build_depend>rostest</build_depend>
+  <build_depend condition="$ROS_VERSION == 1">roscpp</build_depend>
+  <build_depend condition="$ROS_VERSION == 1">rostest</build_depend>
+  <build_depend condition="$ROS_VERSION == 2">rclcpp</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>sensor_msgs</build_depend>
-  <build_depend>message_generation</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend condition="$ROS_VERSION == 1">message_generation</build_depend>
   <build_depend>fields2cover</build_depend>
  
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>rostest</build_export_depend>
+  <build_export_depend condition="$ROS_VERSION == 1">roscpp</build_export_depend>
+  <build_export_depend condition="$ROS_VERSION == 1">rostest</build_export_depend>
+  <build_export_depend condition="$ROS_VERSION == 2">rclcpp</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
   <build_export_depend>sensor_msgs</build_export_depend>
+  <build_export_depend>nav_msgs</build_export_depend>
   <build_export_depend>fields2cover</build_export_depend>
 
-  <exec_depend>message_runtime</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>rostest</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 1">message_runtime</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 1">roscpp</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 1">rostest</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 2">rclcpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
   <exec_depend>fields2cover</exec_depend>
 
+  <export>
+    <build_type condition="$ROS_VERSION == 1">catkin</build_type>
+    <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
+  </export>
 
 </package>
