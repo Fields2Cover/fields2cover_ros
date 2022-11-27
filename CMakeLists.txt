@@ -57,6 +57,10 @@ if ( ament_cmake_FOUND )
 			  RUNTIME DESTINATION bin
 			  INCLUDES DESTINATION include
 	)
+	if(BUILD_TESTING)
+	  find_package(ament_cmake_gtest REQUIRED)
+	  add_subdirectory(test)
+         endif()
 	 ament_export_include_directories(include)
 	 ament_export_libraries(${PROJECT_NAME})
 	 ament_export_dependencies(${dependencies})
