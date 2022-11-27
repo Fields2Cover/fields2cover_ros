@@ -66,7 +66,9 @@ class DISABLED_ToPolyTest
 
 TEST_F(DISABLED_ToPolyTest, testToPoly)
 {
-  // TODO(vinnnyr): determine what is causing seg fault here
+  // TODO(vinnnyr): Undisable this test.
+  // Currently it SegFaults
+  // See: https://github.com/Fields2Cover/fields2cover_ros/issues/5
   F2CLinearRing outer_ring{
     F2CPoint(0, 0), F2CPoint(2, 0), F2CPoint(2, 2), F2CPoint(0, 2), F2CPoint(0, 0)};
   F2CLinearRing inner_ring{
