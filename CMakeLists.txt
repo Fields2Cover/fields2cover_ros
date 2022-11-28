@@ -15,95 +15,108 @@ find_package(Fields2Cover REQUIRED)
 find_package(ament_cmake QUIET)
 
 if ( ament_cmake_FOUND )
-	set(IS_ROS2 ON)
-	message(STATUS "fields2cover_ros is being built using AMENT.")
-	set(BUILD_TOOL_INCLUDE_DIRS ${ament_INCLUDE_DIRS})
-	
-	find_package(rclcpp REQUIRED)
-	find_package(std_msgs REQUIRED)
-	find_package(geometry_msgs REQUIRED)
-	find_package(sensor_msgs REQUIRED)
-	find_package(nav_msgs REQUIRED)
+    set(IS_ROS2 ON)
+    message(STATUS "fields2cover_ros is being built using AMENT.")
+    set(BUILD_TOOL_INCLUDE_DIRS ${ament_INCLUDE_DIRS})
 
-	set(dependencies
-		rclcpp
-		std_msgs
-		geometry_msgs
-		sensor_msgs
-		nav_msgs
-	)
-	
-    	include_directories(
-        	include
-        	${BUILD_TOOL_INCLUDE_DIRS}
-    	)
+    find_package(rclcpp REQUIRED)
+    find_package(std_msgs REQUIRED)
+    find_package(geometry_msgs REQUIRED)
+    find_package(sensor_msgs REQUIRED)
+    find_package(nav_msgs REQUIRED)
 
-	add_library(${PROJECT_NAME} SHARED src/ros/conversor.cpp)
+    set(dependencies
+        rclcpp
+        std_msgs
+        geometry_msgs
+        sensor_msgs
+        nav_msgs
+    )
+
+    include_directories(
+        include
+        ${BUILD_TOOL_INCLUDE_DIRS}
+    )
+
+    add_library(${PROJECT_NAME} SHARED src/ros/conversor.cpp)
 	ament_target_dependencies(
-		${PROJECT_NAME}
-      		${dependencies}
-	)
-    	target_compile_definitions(${PROJECT_NAME} PUBLIC IS_ROS2)
-   	target_link_libraries(${PROJECT_NAME}
-		Fields2Cover
-	)
+      ${PROJECT_NAME} ${dependencies}
+    )
+    target_compile_definitions(${PROJECT_NAME} PUBLIC IS_ROS2)
+    target_link_libraries(${PROJECT_NAME}
+    	Fields2Cover
+    )
 
-	install(DIRECTORY include/
+    install(DIRECTORY include/
             DESTINATION include/
-    	)
-	install(TARGETS ${PROJECT_NAME}
-			  ARCHIVE DESTINATION lib
-			  LIBRARY DESTINATION lib
-			  RUNTIME DESTINATION bin
-			  INCLUDES DESTINATION include
-	)
-	if(BUILD_TESTING)
-	  find_package(ament_cmake_gtest REQUIRED)
-	  add_subdirectory(test)
-         endif()
-	 ament_export_include_directories(include)
-	 ament_export_libraries(${PROJECT_NAME})
-	 ament_export_dependencies(${dependencies})
+    )
+    install(TARGETS ${PROJECT_NAME}
+            ARCHIVE DESTINATION lib
+            LIBRARY DESTINATION lib
+            RUNTIME DESTINATION bin
+            INCLUDES DESTINATION include
+    )
+    if(BUILD_TESTING)
+        add_subdirectory(test)
+    endif()
+    ament_export_include_directories(include)
+    ament_export_libraries(${PROJECT_NAME})
+    ament_export_dependencies(${dependencies})
+    ament_package()
 
-     	 ament_package()
 elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
-	message(STATUS "fields2cover_ros is being built using CATKIN.")
-	find_package(catkin REQUIRED
-	    COMPONENTS
-	    roscpp
-	    std_msgs
-	    geometry_msgs
-	    sensor_msgs
-	    dynamic_reconfigure
-	    )
+    message(STATUS "fields2cover_ros is being built using CATKIN.")
+    find_package(catkin REQUIRED
+        COMPONENTS
+        roscpp
+        std_msgs
+        geometry_msgs
+        sensor_msgs
+        dynamic_reconfigure
+    )
 
-	generate_dynamic_reconfigure_options(
-	  cfg/Controls.cfg
-	)
+    generate_dynamic_reconfigure_options(
+      cfg/Controls.cfg
+    )
 
-	catkin_package(
-	  CATKIN_DEPENDS 
-	    roscpp
-	    std_msgs
-	    geometry_msgs
-	    sensor_msgs
-	)
+    catkin_package(
+      CATKIN_DEPENDS
+        roscpp
+        std_msgs
+        geometry_msgs
+        sensor_msgs
+    )
 
 
-	include_directories(
-	 include
-	 ${catkin_INCLUDE_DIRS}
-	)
+    include_directories(
+      include
+      ${catkin_INCLUDE_DIRS}
+    )
+    add_library(${PROJECT_NAME} SHARED src/ros/conversor.cpp)
+    target_link_libraries(${PROJECT_NAME} Fields2Cover)
 
-	add_executable(visualizer_node 
-	    src/fields2cover_visualizer_node.cpp
-	    src/Fields2CoverVisualizerNode.cpp
-	    src/ros/conversor.cpp
-	)
+    install(DIRECTORY include/
+            DESTINATION include/
+    )
+    install(TARGETS ${PROJECT_NAME}
+              ARCHIVE DESTINATION lib
+              LIBRARY DESTINATION lib
+              RUNTIME DESTINATION bin
+              INCLUDES DESTINATION include
+    )
 
-	target_link_libraries(visualizer_node
-	   ${catkin_LIBRARIES} Fields2Cover
-	)
-	add_dependencies(visualizer_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg )
+    add_executable(visualizer_node
+        src/fields2cover_visualizer_node.cpp
+        src/Fields2CoverVisualizerNode.cpp
+    )
+
+    target_link_libraries(visualizer_node
+       ${catkin_LIBRARIES} Fields2Cover ${PROJECT_NAME}
+    )
+    add_dependencies(visualizer_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg )
+
+    if(CATKIN_ENABLE_TESTING)
+      add_subdirectory(test)
+    endif()
 endif()
 
