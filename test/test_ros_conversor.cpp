@@ -59,12 +59,12 @@ INSTANTIATE_TEST_SUITE_P(
   )
 );
 
-class DISABLED_ToPolyTest
+class ToPolyTest
   : public ::testing::Test
 {
 };
 
-TEST_F(DISABLED_ToPolyTest, testToPoly)
+TEST_F(ToPolyTest, testToPoly)
 {
   // TODO(vinnnyr): Undisable this test.
   // Currently it SegFaults
@@ -78,32 +78,29 @@ TEST_F(DISABLED_ToPolyTest, testToPoly)
   cell.addRing(outer_ring);
   cell.addRing(inner_ring);
 
-  auto poly1 = conversor::GeometryMsgs::Polygon();
-  auto poly2 = conversor::GeometryMsgs::Polygon();
-
   std::vector<conversor::GeometryMsgs::Polygon> polygons;
-  polygons.push_back(poly1);
-  polygons.push_back(poly2);
 
   conversor::ROS::to(cell, polygons);
 
-  EXPECT_NEAR(poly1.points[0].x, 0, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[0].y, 0, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[1].x, 2, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[1].y, 0, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[2].x, 0, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[2].y, 2, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[3].x, 0, FLOAT_TOL);
-  EXPECT_NEAR(poly1.points[3].y, 0, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[0].x, 0, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[0].y, 0, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[1].x, 2, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[1].y, 0, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[2].x, 2, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[2].y, 2, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[3].x, 0, FLOAT_TOL);
+  EXPECT_NEAR(polygons[0].points[3].y, 2, FLOAT_TOL);
 
-  EXPECT_NEAR(poly2.points[0].x, 0.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[0].y, 0.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[1].x, 1.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[1].y, 0.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[2].x, 1.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[2].y, 1.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[3].x, 0.5, FLOAT_TOL);
-  EXPECT_NEAR(poly2.points[3].y, 0.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[0].x, 0.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[0].y, 0.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[1].x, 1.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[1].y, 0.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[2].x, 1.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[2].y, 1.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[3].x, 0.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[3].y, 1.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[4].x, 0.5, FLOAT_TOL);
+  EXPECT_NEAR(polygons[1].points[4].y, 0.5, FLOAT_TOL);
 };
 
 int main(int argc, char ** argv)
