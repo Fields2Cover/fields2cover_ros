@@ -1,5 +1,9 @@
 # Fields2Cover ROS
 
+[![DOI](https://zenodo.org/badge/DOI/10.48550/arXiv.2210.07838.svg)](https://doi.org/10.48550/arXiv.2210.07838)
+
+
+
 This package is an interface to ROS of the [Fields2Cover library](https://github.com/Fields2Cover/Fields2Cover)
 
 <img src="logo_f2c.jpeg" width="250" height="250">
