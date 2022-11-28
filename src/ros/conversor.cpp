@@ -27,7 +27,7 @@ void ROS::to(const F2CCell& _poly,
   GeometryMsgs::Polygon ros_ring;
   to(_poly.getExteriorRing(), ros_ring);
   _ros_poly.push_back(ros_ring);
-  const int n_in_rings = _poly.size();
+  const int n_in_rings = _poly.size() - 1;
   for (int i=0; i < n_in_rings; ++i) {
     ros_ring.points.clear();
     to(_poly.getInteriorRing(i), ros_ring);
