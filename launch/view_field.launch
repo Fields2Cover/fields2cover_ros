@@ -1,7 +1,7 @@
 <launch>
     <node pkg="fields2cover_ros" type="visualizer_node" name="visualizer" output="screen">
       <!-- <param name="field_file" type="string" value="$(find fields2cover_ros)/data/example1.xml"/> -->
-      <param name="field_file" type="string" value="$(find fields2cover_ros)/data/test.xml"/>
+      <param name="field_file" type="string" value="$(find fields2cover_ros)/data/test.json"/>
 
     </node>
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find fields2cover_ros)/launch/demo.rviz"/>
