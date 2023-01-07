@@ -30,7 +30,9 @@ namespace fields2cover_ros {
       private_node_handle_.getParam(
           "field_file", field_file);
 
-      f2c::Parser::importGml(field_file, fields_);
+      // f2c::Parser::importGml(field_file, fields_);
+      f2c::Parser::importJson(field_file, fields_);
+
       
       f2c::Transform::transform(fields_[0], "EPSG:28992");
       robot_.cruise_speed = 2.0;
