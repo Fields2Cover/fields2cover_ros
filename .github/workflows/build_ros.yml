@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     name: "ROS${{ matrix.ros_version }} ${{ matrix.ros_distribution }}"
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
