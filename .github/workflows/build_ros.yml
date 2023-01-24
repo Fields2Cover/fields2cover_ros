@@ -1,0 +1,84 @@
+name: Build and test ROS1
+
+on:
+  push:
+  pull_request:
+  release:
+  repository_dispatch:
+
+jobs:
+  build:
+    name: "ROS${{ matrix.ros_version }} ${{ matrix.ros_distribution }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_distribution:
+          - melodic
+          - noetic
+          - foxy
+          - galactic
+          - humble
+        include:
+          - docker_image: ubuntu:bionic
+            ros_distribution: melodic
+            ros_version: 1
+
+          # Noetic Ninjemys (May 2020 - May 2025)
+          - docker_image: ubuntu:focal
+            ros_distribution: noetic
+            ros_version: 1
+
+          # Foxy Fitzroy (June 2020 - May 2023)
+          - docker_image: ubuntu:focal
+            ros_distribution: foxy
+            ros_version: 2
+
+          # Galactic Geochelone (May 2021 - November 2022)
+          - docker_image: ubuntu:focal
+            ros_distribution: galactic
+            ros_version: 2
+
+          # Humble Hawksbill (May 2022 - May 2027)
+          - docker_image: ubuntu:jammy
+            ros_distribution: humble
+            ros_version: 2
+
+          # Rolling Ridley (No End-Of-Life)
+          - docker_image: ubuntu:jammy
+            ros_distribution: rolling
+            ros_version: 2
+
+    container:
+      image: ${{ matrix.docker_image }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ matrix.ros_distribution }}
+
+      - name: build and test ROS 1
+        if: ${{ matrix.ros_version == 1 }}
+        continue-on-error: true
+        uses: ros-tooling/action-ros-ci@0.2
+        with:
+          package-name: fields2cover_ros
+          target-ros1-distro: ${{ matrix.ros_distribution }}
+          vcs-repo-file-url: ".github/workflows/f2c_repo.repos"
+
+      - name: build and test ROS 2
+        if: ${{ matrix.ros_version == 2 }}
+        continue-on-error: true
+        uses: ros-tooling/action-ros-ci@0.2
+        with:
+          package-name: fields2cover_ros
+          target-ros2-distro: ${{ matrix.ros_distribution }}
+          vcs-repo-file-url: ".github/workflows/f2c_repo.repos"
+
+
+
+
+
+
