@@ -23,6 +23,7 @@ jobs:
           echo github.event.action: ${{ github.event.action }}
           echo github.event_name: ${{ github.event_name }}
 
+      - uses: lukka/get-cmake@latest
       - name: Install dependencies
         run: |
           export DEBIAN_FRONTEND=noninteractive
@@ -43,9 +44,8 @@ jobs:
         shell: bash
         run: |
           source devel/setup.bash
-          catkin_make_isolated --pkg fields2cover_ros --catkin-make-args run_tests
+          catkin build -j$(nproc) --verbose
+          catkin test
 
-      - name: Check test results
-        run: catkin_test_results
 
 
