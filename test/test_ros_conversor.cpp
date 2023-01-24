@@ -15,12 +15,10 @@
 constexpr static float_t FLOAT_TOL = 1e-6;
 
 class ToPointTest
-  : public ::testing::TestWithParam<std::tuple<float_t, float_t, float_t>>
-{
+  : public ::testing::TestWithParam<std::tuple<float_t, float_t, float_t>> {
 };
 
-TEST_P(ToPointTest, testConvertPoint)
-{
+TEST_P(ToPointTest, testConvertPoint) {
   auto params = GetParam();
   auto x = std::get<0>(params);
   auto y = std::get<1>(params);
@@ -34,8 +32,7 @@ TEST_P(ToPointTest, testConvertPoint)
   EXPECT_NEAR(z, point.z, FLOAT_TOL);
 }
 
-TEST_P(ToPointTest, testConvertPoint32)
-{
+TEST_P(ToPointTest, testConvertPoint32) {
   auto params = GetParam();
   auto x = std::get<0>(params);
   auto y = std::get<1>(params);
@@ -60,15 +57,10 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class ToPolyTest
-  : public ::testing::Test
-{
+  : public ::testing::Test {
 };
 
-TEST_F(ToPolyTest, testToPoly)
-{
-  // TODO(vinnnyr): Undisable this test.
-  // Currently it SegFaults
-  // See: https://github.com/Fields2Cover/fields2cover_ros/issues/5
+TEST_F(ToPolyTest, testToPoly) {
   F2CLinearRing outer_ring{
     F2CPoint(0, 0), F2CPoint(2, 0), F2CPoint(2, 2), F2CPoint(0, 2), F2CPoint(0, 0)};
   F2CLinearRing inner_ring{
@@ -101,11 +93,6 @@ TEST_F(ToPolyTest, testToPoly)
   EXPECT_NEAR(polygons[1].points[3].y, 1.5, FLOAT_TOL);
   EXPECT_NEAR(polygons[1].points[4].x, 0.5, FLOAT_TOL);
   EXPECT_NEAR(polygons[1].points[4].y, 0.5, FLOAT_TOL);
+  EXPECT_EQ(3,2);
 };
 
-int main(int argc, char ** argv)
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  bool all_successful = RUN_ALL_TESTS();
-  return all_successful;
-}
