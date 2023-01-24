@@ -1,4 +1,4 @@
-name: Build and test ROS1
+name: Build and test ROS2
 
 on:
   push:
@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    name: "ROS1 ${{ matrix.ros_version }}"
+    name: "ROS2 ${{ matrix.ros_version }}"
     runs-on: ubuntu-latest
     container: "ros:${{ matrix.ros_version }}"
     strategy:
       fail-fast: false
       matrix:
-        ros_version: ["noetic", "melodic"]
+        ros_version: ["humble"]
 
     steps:
       - uses: actions/checkout@v3
@@ -27,25 +27,28 @@ jobs:
       - name: Install dependencies
         run: |
           export DEBIAN_FRONTEND=noninteractive
-          apt-get update -qq && apt-get install -qqy ca-certificates python3-catkin-tools python3-osrf-pycommon git software-properties-common
-          add-apt-repository -y ppa:ubuntugis/ppa && apt-get update -qq
+          apt-get update -qq && apt-get install -qqy ca-certificates python3-osrf-pycommon git software-properties-common
+          add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
+          mkdir ws/src && cd ws
           git clone https://github.com/Fields2Cover/Fields2Cover.git src/fields2cover --branch main
           rosdep update
           rosdep install -r --ignore-src -y --from-paths .
-          bash -c 'source /opt/ros/*/setup.bash && catkin build -j$(nproc) --verbose'
+          bash -c 'source /opt/ros/*/setup.bash && colcon build'
 
       - name: Copy fields2cover_ros to the src folder
+        working-directory: ${{github.workspace}}/ws
         run: cp -r . src/fields2cover_ros/.
 
       - name: Install ROS dependencies
-        run: rosdep install -r --ignore-src -y --from-paths src
+        working-directory: ${{github.workspace}}/ws
+        run: rosdep install -r --ignore-src -y --from-paths .
 
       - name: Build
         shell: bash
         run: |
-          source devel/setup.bash
-          catkin build -j$(nproc) --verbose
-          catkin test
+          source /opt/ros/*/setup.bash
+          colcon build
+          colcon test
 
 
 
