@@ -61,7 +61,7 @@ jobs:
           required-ros-distributions: ${{ matrix.ros_distribution }}
 
       - name: Install Fields2Cover
-        run:
+        run: |
           export DEBIAN_FRONTEND=noninteractive
           add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
           apt-get install -y --no-install-recommends ca-certificates
