@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     name: "ROS1 ${{ matrix.ros_version }}"
+    runs-on: "ubuntu-latest"
     container: "ros:${{ matrix.ros_version }}"
     strategy:
       fail-fast: false
