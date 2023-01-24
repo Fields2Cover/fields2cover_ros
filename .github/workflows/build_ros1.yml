@@ -29,6 +29,7 @@ jobs:
           apt-get update -qq && apt-get install -qqy ca-certificates python3-catkin-tools python3-osrf-pycommon git software-properties-common
           add-apt-repository -y ppa:ubuntugis/ppa && apt-get update -qq
           git clone https://github.com/Fields2Cover/Fields2Cover.git src/fields2cover --branch main
+          rosdep update
           rosdep install -r --ignore-src -y --from-paths .
           bash -c 'source /opt/ros/*/setup.bash && catkin build -j$(nproc) --verbose'
 
