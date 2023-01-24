@@ -1,4 +1,4 @@
-name: Build and test ROS1
+name: Build and test ROS
 
 on:
   push:
@@ -53,30 +53,46 @@ jobs:
       image: ${{ matrix.docker_image }}
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
 
       - uses: ros-tooling/setup-ros@v0.3
         with:
           required-ros-distributions: ${{ matrix.ros_distribution }}
 
+      - name: Install Fields2Cover
+        run:
+          export DEBIAN_FRONTEND=noninteractive
+          add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
+          apt-get install -y --no-install-recommends ca-certificates
+          apt-get install -y --no-install-recommends build-essential doxygen git lcov libboost-dev libeigen3-dev libgtest-dev libpython3-dev libtbb-dev python3 python3-matplotlib python3-pip python3-pytest python3-tk libgdal-dev
+          python3 -m pip install gcovr setuptools swig
+          cd /usr/src/gtest
+          cmake CMakeLists.txt && make
+          cp *.a /usr/lib/ 2>\dev\null || :
+          cp lib/*.a /usr/lib/ 2>\dev\null || :
+          ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
+          ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+          git clone https://www.github.com/Fields2Cover/Fields2Cover
+          cd Fields2Cover && mkdir build && cd build
+          cmake -DBUILD_PYTHON=OFF -DBUILD_TUTORIALS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF ..
+          make -j2
+          make install
+
+
       - name: build and test ROS 1
         if: ${{ matrix.ros_version == 1 }}
-        continue-on-error: true
         uses: ros-tooling/action-ros-ci@0.2.7
         with:
           package-name: fields2cover_ros
           target-ros1-distro: ${{ matrix.ros_distribution }}
-          vcs-repo-file-url: ".github/workflows/f2c_repo.repos"
 
       - name: build and test ROS 2
         if: ${{ matrix.ros_version == 2 }}
-        continue-on-error: true
         uses: ros-tooling/action-ros-ci@0.2.7
         with:
           package-name: fields2cover_ros
           target-ros2-distro: ${{ matrix.ros_distribution }}
-          vcs-repo-file-url: ".github/workflows/f2c_repo.repos"
 
 
 
