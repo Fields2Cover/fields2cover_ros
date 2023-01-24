@@ -1,0 +1,49 @@
+name: Build and test ROS1
+
+on:
+  push:
+  pull_request:
+  release:
+  repository_dispatch:
+
+jobs:
+  build:
+    name: "ROS1 ${{ matrix.ros_version }}"
+    container: "ros:${{ matrix.ros_version }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_version: ["noetic", "melodic"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Print env
+        run: |
+          echo github.event.action: ${{ github.event.action }}
+          echo github.event_name: ${{ github.event_name }}
+
+      - name: Install dependencies
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq && apt-get install -qqy ca-certificates python3-catkin-tools python3-osrf-pycommon git software-properties-common
+          add-apt-repository -y ppa:ubuntugis/ppa && apt-get update -qq
+          git clone https://github.com/Fields2Cover/Fields2Cover.git src/fields2cover --branch main
+          rosdep install -r --ignore-src -y --from-paths .
+          bash -c 'source /opt/ros/*/setup.bash && catkin build -j$(nproc) --verbose'
+
+      - name: Copy fields2cover_ros to the src folder
+        run: cp -r . src/fields2cover_ros/.
+
+      - name: Install ROS dependencies
+        run: rosdep install -r --ignore-src -y --from-paths src
+
+      - name: Build
+        shell: bash
+        run: |
+          source devel/setup.bash
+          catkin_make_isolated --pkg fields2cover_ros --catkin-make-args run_tests
+
+      - name: Check test results
+        run: catkin_test_results
+
+
