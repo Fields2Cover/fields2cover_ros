@@ -63,7 +63,7 @@ jobs:
       - name: build and test ROS 1
         if: ${{ matrix.ros_version == 1 }}
         continue-on-error: true
-        uses: ros-tooling/action-ros-ci@0.2
+        uses: ros-tooling/action-ros-ci@0.2.7
         with:
           package-name: fields2cover_ros
           target-ros1-distro: ${{ matrix.ros_distribution }}
@@ -72,7 +72,7 @@ jobs:
       - name: build and test ROS 2
         if: ${{ matrix.ros_version == 2 }}
         continue-on-error: true
-        uses: ros-tooling/action-ros-ci@0.2
+        uses: ros-tooling/action-ros-ci@0.2.7
         with:
           package-name: fields2cover_ros
           target-ros2-distro: ${{ matrix.ros_distribution }}
