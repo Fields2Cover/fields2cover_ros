@@ -54,14 +54,14 @@ namespace fields2cover_ros {
       geometry_msgs::PolygonStamped polygon_st;
       polygon_st.header.stamp = ros::Time::now();
       polygon_st.header.frame_id = "base_link";
-      ROS::to(f.getCellBorder(0), polygon_st.polygon);
+      conversor::ROS::to(f.getCellBorder(0), polygon_st.polygon);
       field_polygon_publisher_.publish(polygon_st);
       polygon_st.polygon.points.clear();
       
       geometry_msgs::PolygonStamped polygon_st2;
       polygon_st2.header.stamp = ros::Time::now();
       polygon_st2.header.frame_id = "base_link";
-      ROS::to(no_headlands.getGeometry(0), polygon_st2.polygon);
+      conversor::ROS::to(no_headlands.getGeometry(0), polygon_st2.polygon);
       field_no_headlands_publisher_.publish(polygon_st2);
       polygon_st2.polygon.points.clear();
 
@@ -158,7 +158,7 @@ namespace fields2cover_ros {
       geometry_msgs::Point ros_p;
 
       for (auto&& s : path.states) {
-        ROS::to(s.point, ros_p);
+	conversor::ROS::to(s.point, ros_p);
         marker_swaths.points.push_back(ros_p);
       }
       field_swaths_publisher_.publish(marker_swaths);
