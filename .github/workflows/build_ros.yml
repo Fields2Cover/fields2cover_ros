@@ -70,6 +70,16 @@ jobs:
           ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
           ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
 
+          cd /
+          git clone https://github.com/Fields2Cover/Fields2Cover
+          cd Fields2Cover
+          mkdir build && cd build
+          cmake -DBUILD_SHARED=OFF ..
+          make -j2
+          make install
+
+
+
 
       - name: build and test ROS 1
         if: ${{ matrix.ros_version == 1 }}
