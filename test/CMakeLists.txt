@@ -6,7 +6,7 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false unittests.cpp *.cpp)
 
 if ( ament_cmake_FOUND )
 find_package(ament_cmake_gtest REQUIRED)
-ament_add_gtest_executable(
+ament_add_gtest(
     unittests
     ${TEST_SOURCES}
   )
