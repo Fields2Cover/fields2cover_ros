@@ -37,6 +37,7 @@ if ( ament_cmake_FOUND )
   target_link_libraries(
     unittests
     ${PROJECT_NAME}
+    Fields2Cover
   )
 elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
   target_link_libraries(
