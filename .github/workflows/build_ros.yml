@@ -91,7 +91,7 @@ jobs:
           ./install.sh
 
       - name: Install GDAL others
-        if: !${{ matrix.docker_image == "ubuntu:bionic" }}
+        if: ${{ matrix.docker_image != "ubuntu:bionic" }}
         run: |
           apt install -y libgdal-dev
 
