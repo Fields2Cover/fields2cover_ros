@@ -73,15 +73,6 @@ jobs:
           ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
           ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
 
-          cd /
-          git clone https://github.com/Fields2Cover/Fields2Cover
-          cd Fields2Cover
-          mkdir build && cd build
-          cmake ..
-          make -j2
-          make install
-          cp -rf /usr/local/lib/* /usr/lib/ 2>\dev\null || :
-
 
       - name: Install GDAL bionic
         if: contains(${{ matrix.ros_distribution}}, "melodic")
@@ -94,6 +85,16 @@ jobs:
         if: false == contains(${{ matrix.ros_distribution}}, "melodic")
         run: |
           apt install -y libgdal-dev
+
+      - name: Install F2C
+          cd /
+          git clone https://github.com/Fields2Cover/Fields2Cover
+          cd Fields2Cover
+          mkdir build && cd build
+          cmake ..
+          make -j2
+          make install
+          cp -rf /usr/local/lib/* /usr/lib/ 2>\dev\null || :
 
 
       - name: build and test ROS 1
