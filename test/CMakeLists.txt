@@ -14,7 +14,7 @@ ament_target_dependencies(
   unittests
   ${dependencies}
 )
-elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+elseif( catkin_FOUND )
   find_package(rostest REQUIRED)
   catkin_add_executable_with_gtest(
     unittests
@@ -39,7 +39,7 @@ if ( ament_cmake_FOUND )
     ${PROJECT_NAME}
     Fields2Cover
   )
-elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+elseif( catkin_FOUND )
   target_link_libraries(
     unittests
     ${catkin_LIBRARIES}

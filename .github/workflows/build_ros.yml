@@ -55,7 +55,9 @@ jobs:
         with:
           required-ros-distributions: ${{ matrix.ros_distribution }}
 
-      - name: Install Fields2Cover
+      - name: Install GDAL
+        run
+      - name: Install dependencies of Fields2Cover
         run: |
           export DEBIAN_FRONTEND=noninteractive
           add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
@@ -77,7 +79,7 @@ jobs:
           cmake ..
           make -j2
           make install
-          cp -rf /usr/local/lib/*.so /usr/lib/
+          cp -rf /usr/local/lib/* /usr/lib/
 
 
 

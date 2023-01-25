@@ -13,6 +13,7 @@ endif()
 find_package(Fields2Cover REQUIRED)
 
 find_package(ament_cmake QUIET)
+find_package(catkin QUIET)
 
 if ( ament_cmake_FOUND )
     set(IS_ROS2 ON)
@@ -64,7 +65,7 @@ if ( ament_cmake_FOUND )
     ament_export_dependencies(${dependencies})
     ament_package()
 
-elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+  elseif( CATKIN_FOUND )
     message(STATUS "fields2cover_ros is being built using CATKIN.")
     find_package(catkin REQUIRED
         COMPONENTS
@@ -75,9 +76,13 @@ elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
         dynamic_reconfigure
     )
 
-    generate_dynamic_reconfigure_options(
-      cfg/Controls.cfg
-    )
+    # Avoid compile the controls with colcon, as it is not supported
+    # https://answers.ros.org/question/290921/dynamic-reconfigure-in-ros2/
+    if( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+      generate_dynamic_reconfigure_options(
+        cfg/Controls.cfg
+      )
+    endif()
 
     catkin_package(
       CATKIN_DEPENDS
@@ -105,17 +110,25 @@ elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
               INCLUDES DESTINATION include
     )
 
-    add_executable(visualizer_node
-        src/fields2cover_visualizer_node.cpp
-        src/Fields2CoverVisualizerNode.cpp
-    )
+    if (DEFINED ${RESOURCE_PATH})
+      install(FILES package.xml DESTINATION ${RESOURCE_PATH})
+    endif()
 
-    target_link_libraries(visualizer_node
-       ${catkin_LIBRARIES} Fields2Cover ${PROJECT_NAME}
-    )
-    add_dependencies(visualizer_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg )
+    # Avoid compile the controls with colcon, as it is not supported
+    # https://answers.ros.org/question/290921/dynamic-reconfigure-in-ros2/
+    if( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+      add_executable(visualizer_node
+          src/fields2cover_visualizer_node.cpp
+          src/Fields2CoverVisualizerNode.cpp
+      )
 
-    if(CATKIN_ENABLE_TESTING)
+      target_link_libraries(visualizer_node
+         ${catkin_LIBRARIES} Fields2Cover ${PROJECT_NAME}
+      )
+      add_dependencies(visualizer_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg )
+    endif()
+
+    if(CATKIN_ENABLE_TESTING OR BUILD_TESTING)
       add_subdirectory(test)
     endif()
 endif()
