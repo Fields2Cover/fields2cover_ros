@@ -84,14 +84,14 @@ jobs:
 
 
       - name: Install GDAL bionic
-        if: ${{ matrix.ros_distribution == "melodic" }}
+        if: contains(${{ matrix.ros_distribution}}, "melodic")
         run: |
           wget https://raw.githubusercontent.com/OSGeo/gdal/master/.github/workflows/ubuntu_18.04/install.sh
           chmod a+rwx install.sh
           ./install.sh
 
       - name: Install GDAL others
-        if: ${{ matrix.ros_distribution != "melodic" }}
+        if: ${{!contains(${{ matrix.ros_distribution}}, "melodic")}}
         run: |
           apt install -y libgdal-dev
 
