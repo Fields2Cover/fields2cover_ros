@@ -91,7 +91,7 @@ jobs:
           ./install.sh
 
       - name: Install GDAL others
-        if: ${{!contains(${{ matrix.ros_distribution}}, "melodic")}}
+        if: false == contains(${{ matrix.ros_distribution}}, "melodic")
         run: |
           apt install -y libgdal-dev
 
