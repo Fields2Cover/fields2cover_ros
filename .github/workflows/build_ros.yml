@@ -1,0 +1,102 @@
+name: Build and test ROS
+
+on:
+  push:
+  pull_request:
+  release:
+  repository_dispatch:
+
+jobs:
+  build:
+    name: "ROS${{ matrix.ros_version }} ${{ matrix.ros_distribution }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_distribution:
+          - noetic
+          - galactic
+          - humble
+          - rolling
+        include:
+          # Noetic Ninjemys (May 2020 - May 2025)
+          - docker_image: ubuntu:focal
+            ros_distribution: noetic
+            ros_version: 1
+
+          # Galactic Geochelone (May 2021 - November 2022)
+          - docker_image: ubuntu:focal
+            ros_distribution: galactic
+            ros_version: 2
+
+          # Humble Hawksbill (May 2022 - May 2027)
+          - docker_image: ubuntu:jammy
+            ros_distribution: humble
+            ros_version: 2
+
+          # Rolling Ridley (No End-Of-Life)
+          - docker_image: ubuntu:jammy
+            ros_distribution: rolling
+            ros_version: 2
+
+    container:
+      image: ${{ matrix.docker_image }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ matrix.ros_distribution }}
+
+
+
+
+      - name: Install dependencies of Fields2Cover
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
+          apt-get install -y --no-install-recommends ca-certificates
+          apt-get install -y --no-install-recommends build-essential doxygen git lcov libboost-dev libeigen3-dev libgtest-dev libpython3-dev libtbb-dev python3 python3-matplotlib python3-pip python3-pytest python3-tk libgdal-dev
+          python3 -m pip install gcovr setuptools swig
+          cd /usr/src/gtest
+          cmake CMakeLists.txt
+          make -j2
+          cp *.a /usr/lib/ 2>\dev\null || :
+          cp lib/*.a /usr/lib/ 2>\dev\null || :
+          ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
+          ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+
+
+      - name: Install F2C
+        run: |
+          cd /
+          git clone https://github.com/Fields2Cover/Fields2Cover
+          cd Fields2Cover
+          mkdir build && cd build
+          cmake ..
+          make -j2
+          make install
+          cp -rf /usr/local/lib/* /usr/lib/ 2>\dev\null || :
+
+
+      - name: build and test ROS 1
+        if: ${{ matrix.ros_version == 1 }}
+        uses: ros-tooling/action-ros-ci@0.2.7
+        with:
+          package-name: fields2cover_ros
+          target-ros1-distro: ${{ matrix.ros_distribution }}
+
+      - name: build and test ROS 2
+        if: ${{ matrix.ros_version == 2 }}
+        uses: ros-tooling/action-ros-ci@0.2.7
+        with:
+          package-name: fields2cover_ros
+          target-ros2-distro: ${{ matrix.ros_distribution }}
+
+
+
+
+
+

@@ -93,6 +93,5 @@ TEST_F(ToPolyTest, testToPoly) {
   EXPECT_NEAR(polygons[1].points[3].y, 1.5, FLOAT_TOL);
   EXPECT_NEAR(polygons[1].points[4].x, 0.5, FLOAT_TOL);
   EXPECT_NEAR(polygons[1].points[4].y, 0.5, FLOAT_TOL);
-  EXPECT_EQ(3,2);
 };
 
