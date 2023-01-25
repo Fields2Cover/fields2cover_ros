@@ -69,14 +69,6 @@ jobs:
           cp lib/*.a /usr/lib/ 2>\dev\null || :
           ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
           ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
-          cd /usr/src
-          git clone https://www.github.com/Fields2Cover/Fields2Cover
-          cd Fields2Cover
-          mkdir build
-          cd build
-          cmake -DBUILD_PYTHON=OFF -DBUILD_TUTORIALS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF ..
-          make -j2
-          make install
 
 
       - name: build and test ROS 1
@@ -85,6 +77,7 @@ jobs:
         with:
           package-name: fields2cover_ros
           target-ros1-distro: ${{ matrix.ros_distribution }}
+          action-ros-ci-repos-supplemental: https://github.com/Fields2Cover/fields2cover_ros/blob/set-CI/.github/workflows/f2c_repo.repos
 
       - name: build and test ROS 2
         if: ${{ matrix.ros_version == 2 }}
@@ -92,6 +85,7 @@ jobs:
         with:
           package-name: fields2cover_ros
           target-ros2-distro: ${{ matrix.ros_distribution }}
+          action-ros-ci-repos-supplemental: https://github.com/Fields2Cover/fields2cover_ros/blob/set-CI/.github/workflows/f2c_repo.repos
 
 
 
