@@ -73,6 +73,7 @@ jobs:
           apt install -y libgdal-dev
 
       - name: Install F2C
+        run: |
           cd /
           git clone https://github.com/Fields2Cover/Fields2Cover
           cd Fields2Cover
