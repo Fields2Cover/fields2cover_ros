@@ -74,9 +74,10 @@ jobs:
           git clone https://github.com/Fields2Cover/Fields2Cover
           cd Fields2Cover
           mkdir build && cd build
-          cmake -DBUILD_SHARED=OFF ..
+          cmake ..
           make -j2
           make install
+          cp -rf /usr/local/lib/*.so /usr/lib/
 
 
 
@@ -87,7 +88,6 @@ jobs:
         with:
           package-name: fields2cover_ros
           target-ros1-distro: ${{ matrix.ros_distribution }}
-          action-ros-ci-repos-supplemental: https://github.com/Fields2Cover/fields2cover_ros/blob/set-CI/.github/workflows/f2c_repo.repos
 
       - name: build and test ROS 2
         if: ${{ matrix.ros_version == 2 }}
@@ -95,7 +95,6 @@ jobs:
         with:
           package-name: fields2cover_ros
           target-ros2-distro: ${{ matrix.ros_distribution }}
-          action-ros-ci-repos-supplemental: https://github.com/Fields2Cover/fields2cover_ros/blob/set-CI/.github/workflows/f2c_repo.repos
 
 
 
