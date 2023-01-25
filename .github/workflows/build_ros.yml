@@ -55,8 +55,8 @@ jobs:
         with:
           required-ros-distributions: ${{ matrix.ros_distribution }}
 
-      - name: Install GDAL
-        run
+          #- name: Install GDAL
+          # run
       - name: Install dependencies of Fields2Cover
         run: |
           export DEBIAN_FRONTEND=noninteractive
