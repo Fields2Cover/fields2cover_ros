@@ -65,7 +65,7 @@ if ( ament_cmake_FOUND )
     ament_export_dependencies(${dependencies})
     ament_package()
 
-  elseif( CATKIN_FOUND )
+elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
     message(STATUS "fields2cover_ros is being built using CATKIN.")
     find_package(catkin REQUIRED
         COMPONENTS
@@ -78,7 +78,7 @@ if ( ament_cmake_FOUND )
 
     # Avoid compile the controls with colcon, as it is not supported
     # https://answers.ros.org/question/290921/dynamic-reconfigure-in-ros2/
-    if( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+    if( ament_cmake_NOT_FOUND )
       generate_dynamic_reconfigure_options(
         cfg/Controls.cfg
       )
@@ -116,7 +116,7 @@ if ( ament_cmake_FOUND )
 
     # Avoid compile the controls with colcon, as it is not supported
     # https://answers.ros.org/question/290921/dynamic-reconfigure-in-ros2/
-    if( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE )
+    if( ament_cmake_NOT_FOUND )
       add_executable(visualizer_node
           src/fields2cover_visualizer_node.cpp
           src/Fields2CoverVisualizerNode.cpp
