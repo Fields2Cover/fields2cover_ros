@@ -55,14 +55,15 @@ jobs:
         with:
           required-ros-distributions: ${{ matrix.ros_distribution }}
 
-          #- name: Install GDAL
-          # run
+
+
+
       - name: Install dependencies of Fields2Cover
         run: |
           export DEBIAN_FRONTEND=noninteractive
           add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && apt-get update -qq
           apt-get install -y --no-install-recommends ca-certificates
-          apt-get install -y --no-install-recommends build-essential doxygen git lcov libboost-dev libeigen3-dev libgtest-dev libpython3-dev libtbb-dev python3 python3-matplotlib python3-pip python3-pytest python3-tk libgdal-dev
+          apt-get install -y --no-install-recommends build-essential doxygen git lcov libboost-dev libeigen3-dev libgtest-dev libpython3-dev libtbb-dev python3 python3-matplotlib python3-pip python3-pytest python3-tk
           python3 -m pip install gcovr setuptools swig
           cd /usr/src/gtest
           cmake CMakeLists.txt
@@ -79,9 +80,20 @@ jobs:
           cmake ..
           make -j2
           make install
-          cp -rf /usr/local/lib/* /usr/lib/
+          cp -rf /usr/local/lib/* /usr/lib/ 2>\dev\null || :
 
 
+      - name: Install GDAL bionic
+        if: ${{ matrix.docker_image == "ubuntu:bionic" }}
+        run: |
+          wget https://raw.githubusercontent.com/OSGeo/gdal/master/.github/workflows/ubuntu_18.04/install.sh
+          chmod a+rwx install.sh
+          ./install.sh
+
+      - name: Install GDAL others
+        if: !${{ matrix.docker_image == "ubuntu:bionic" }}
+        run: |
+          apt install -y libgdal-dev
 
 
       - name: build and test ROS 1
