@@ -10,11 +10,12 @@ This package is an interface to ROS of the [Fields2Cover library](https://github
 
 ## Installation
 
-This code has been tested with ROS noetic and melodic.
+This code has been tested with ROS1 noetic and melodic, and ROS2 galatic, humble and rolling.
 
+### ROS 1
 First, install [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) and create a [workspace (from now: catkin_ws/ )](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
 
-Under `catkin_ws/` clone and compile the package as:
+From `catkin_ws/` clone and compile the package as:
 ```
 git clone https://github.com/Fields2Cover/Fields2Cover src/fields2cover
 git clone https://github.com/Fields2Cover/fields2cover_ros src/fields2cover_ros
@@ -22,8 +23,20 @@ rosdep install -r --ignore-src -y --from-paths .
 catkin_make_isolated
 ```
 
+### ROS 2
 
-## Running a demo
+Install [ROS2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and create your workspace as `mkdir ws`.
+
+From `ws/` clone and compile the package as:
+```
+git clone https://github.com/Fields2Cover/Fields2Cover src/fields2cover
+git clone https://github.com/Fields2Cover/fields2cover_ros src/fields2cover_ros
+rosdep install -r --ignore-src -y --from-paths .
+colcon build
+```
+
+
+## Running a demo (Only on ROS1)
 
 To run an interactive demo, run:
 
