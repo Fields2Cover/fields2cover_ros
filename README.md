@@ -52,16 +52,19 @@ A rviz and a rqt_reconfigure windows will appear, so you can interactively modif
 ## Citing
 
 
-Please cite the [following paper](https://arxiv.org/abs/2210.07838) when using Fields2Cover for your research:
+Please cite the [following paper](https://doi.org/10.1109/LRA.2023.3248439) when using Fields2Cover for your research:
 
 ```
 @article{Mier_Fields2Cover_An_open-source_2022,
   author = {Mier, Gonzalo and Valente, João and de Bruin, Sytze},
-  doi = {https://doi.org/10.48550/arXiv.2210.07838},
-  journal = {arXiv},
-  title = {{Fields2Cover: An open-source coverage path planning library for unmanned agricultural vehicles}},
-  year = {2022}
-}  
+  doi={10.1109/LRA.2023.3248439},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={Fields2Cover: An open-source coverage path planning library for unmanned agricultural vehicles},
+  volume={},
+  number={},
+  pages={1-8},
+  year = {2023}
+}
 ```
 
 
