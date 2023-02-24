@@ -1,7 +1,6 @@
 # Fields2Cover ROS
 
-[![DOI](https://zenodo.org/badge/DOI/10.48550/arXiv.2210.07838.svg)](https://doi.org/10.48550/arXiv.2210.07838)
-
+[![DOI](https://zenodo.org/badge/DOI/10.1109/LRA.2023.3248439.svg)](https://doi.org/10.1109/LRA.2023.3248439)
 
 
 This package is an interface to ROS of the [Fields2Cover library](https://github.com/Fields2Cover/Fields2Cover)
@@ -10,7 +9,7 @@ This package is an interface to ROS of the [Fields2Cover library](https://github
 
 ## Installation
 
-This code has been tested with ROS1 noetic and melodic, and ROS2 galatic, humble and rolling.
+This code has been tested with ROS 1 noetic and melodic, and ROS 2 galatic, humble and rolling.
 
 ### ROS 1
 First, install [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) and create a [workspace (from now: catkin_ws/ )](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
@@ -25,7 +24,7 @@ catkin_make_isolated
 
 ### ROS 2
 
-Install [ROS2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and create your workspace as `mkdir ws`.
+Install [ROS 2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and create your workspace as `mkdir ws`.
 
 From `ws/` clone and compile the package as:
 ```
@@ -36,7 +35,7 @@ colcon build
 ```
 
 
-## Running a demo (Only on ROS1)
+## Running a demo (Only on ROS 1)
 
 To run an interactive demo, run:
 
