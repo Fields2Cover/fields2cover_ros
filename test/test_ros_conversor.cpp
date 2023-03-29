@@ -46,7 +46,7 @@ TEST_P(ToPointTest, testConvertPoint32) {
   EXPECT_NEAR(z, point.z, FLOAT_TOL);
 }
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
   ParametrizedToPointTest,
   ToPointTest,
   ::testing::Values(

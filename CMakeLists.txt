@@ -25,6 +25,7 @@ if ( ament_cmake_FOUND )
     find_package(geometry_msgs REQUIRED)
     find_package(sensor_msgs REQUIRED)
     find_package(nav_msgs REQUIRED)
+    find_package(visualization_msgs REQUIRED)
 
     set(dependencies
         rclcpp
@@ -32,6 +33,7 @@ if ( ament_cmake_FOUND )
         geometry_msgs
         sensor_msgs
         nav_msgs
+        visualization_msgs
     )
 
     include_directories(
@@ -48,8 +50,26 @@ if ( ament_cmake_FOUND )
     	Fields2Cover
     )
 
+    add_executable(visualizer_node
+        src/fields2cover_visualizer_node.cpp
+        src/Fields2CoverVisualizerNode.cpp
+    )
+    target_compile_definitions(visualizer_node PUBLIC IS_ROS2)
+	ament_target_dependencies(visualizer_node
+      ${dependencies}
+    )
+    target_link_libraries(visualizer_node
+    	Fields2Cover ${PROJECT_NAME}
+    )
+
     install(DIRECTORY include/
             DESTINATION include/
+    )
+    install(DIRECTORY data/
+            DESTINATION share/${PROJECT_NAME}/data/
+    )
+    install(DIRECTORY launch/
+            DESTINATION share/${PROJECT_NAME}/launch/
     )
     install(TARGETS ${PROJECT_NAME}
             ARCHIVE DESTINATION lib
@@ -57,6 +77,10 @@ if ( ament_cmake_FOUND )
             RUNTIME DESTINATION bin
             INCLUDES DESTINATION include
     )
+
+    install(TARGETS
+      visualizer_node
+      DESTINATION lib/${PROJECT_NAME})
     if(BUILD_TESTING)
         add_subdirectory(test)
     endif()
