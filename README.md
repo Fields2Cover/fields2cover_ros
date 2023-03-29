@@ -12,7 +12,7 @@ This package is an interface to ROS of the [Fields2Cover library](https://github
 This code has been tested with ROS 1 noetic and melodic, and ROS 2 galatic, humble and rolling.
 
 ### ROS 1
-First, install [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) and create a [workspace (from now: catkin_ws/ )](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
+First, install [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) and create a [workspace (from now: catkin_ws/ )](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
 
 From `catkin_ws/` clone and compile the package as:
 ```
@@ -54,14 +54,14 @@ A rviz and a rqt_reconfigure windows will appear, so you can interactively modif
 Please cite the [following paper](https://doi.org/10.1109/LRA.2023.3248439) when using Fields2Cover for your research:
 
 ```
-@article{Mier_Fields2Cover_An_open-source_2022,
+@article{Mier_Fields2Cover_An_open-source_2023,
   author = {Mier, Gonzalo and Valente, João and de Bruin, Sytze},
   doi={10.1109/LRA.2023.3248439},
-  journal={IEEE Robotics and Automation Letters}, 
+  journal={IEEE Robotics and Automation Letters},
   title={Fields2Cover: An open-source coverage path planning library for unmanned agricultural vehicles},
-  volume={},
-  number={},
-  pages={1-8},
+  volume={8},
+  number={4},
+  pages={2166-2172},
   year = {2023}
 }
 ```
