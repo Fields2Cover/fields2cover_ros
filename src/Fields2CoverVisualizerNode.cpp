@@ -10,6 +10,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <memory>
 
 #ifndef IS_ROS2
   #include <dynamic_reconfigure/server.h>
@@ -38,13 +39,13 @@ namespace fields2cover_ros {
         this->create_publisher<VisualizationMsgs::Marker>("/field/swaths", 1);
     #else
       field_polygon_publisher_ =
-        &public_node_handle_.advertise<GeometryMsgs::PolygonStamped>("/field/border", 1, true);
+        std::make_shared<ros::Publisher>(public_node_handle_.advertise<GeometryMsgs::PolygonStamped>("/field/border", 1, true));
       field_no_headlands_publisher_ =
-        &public_node_handle_.advertise<GeometryMsgs::PolygonStamped>("/field/no_headlands", 1, true);
+        std::make_shared<ros::Publisher>(public_node_handle_.advertise<GeometryMsgs::PolygonStamped>("/field/no_headlands", 1, true));
       field_gps_publisher_ =
-        &public_node_handle_.advertise<SensorMsgs::NavSatFix>("/gps/fix", 1, true);
+        std::make_shared<ros::Publisher>(public_node_handle_.advertise<SensorMsgs::NavSatFix>("/gps/fix", 1, true));
       field_swaths_publisher_ =
-        &public_node_handle_.advertise<VisualizationMsgs::Marker>("/field/swaths", 1, true);
+        std::make_shared<ros::Publisher>(public_node_handle_.advertise<VisualizationMsgs::Marker>("/field/swaths", 1, true));
     #endif
 
     #ifdef IS_ROS2
@@ -196,7 +197,7 @@ namespace fields2cover_ros {
   }
 
   #ifndef IS_ROS2
-  void VisualizerNode::rqt_callback(fields2cover_ros::F2CConfig &config) {
+  void VisualizerNode::rqt_callback(fields2cover_ros::F2CConfig &config, uint32_t level) {
     robot_.op_width = config.op_width;
     robot_.setMinRadius(config.turn_radius);
     optim_.best_angle = config.swath_angle;

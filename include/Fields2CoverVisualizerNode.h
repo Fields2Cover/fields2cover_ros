@@ -91,7 +91,7 @@ namespace fields2cover_ros {
           publish_topics();
         }
       #else
-        void rqt_callback(fields2cover_ros::F2CConfig &config);
+        void rqt_callback(fields2cover_ros::F2CConfig &config, uint32_t level);
         ros::NodeHandle private_node_handle_ { "~" };
         ros::NodeHandle public_node_handle_;
       #endif

@@ -10,6 +10,7 @@
   #include <ros/ros.h>
   #include <dynamic_reconfigure/server.h>
   #include <fields2cover_ros/F2CConfig.h>
+  #include <boost/bind.hpp>
 #endif
 
 #include <memory>
