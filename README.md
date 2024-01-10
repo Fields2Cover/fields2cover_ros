@@ -1,5 +1,10 @@
-# Fields2Cover ROS
 
+> [!IMPORTANT]  
+> As Nav2 released an actual proper wrapper for ROS (https://github.com/open-navigation/opennav_coverage), we have decided to unmantain this repository.
+
+
+
+# Fields2Cover ROS
 [![DOI](https://zenodo.org/badge/DOI/10.1109/LRA.2023.3248439.svg)](https://doi.org/10.1109/LRA.2023.3248439)
 
 
